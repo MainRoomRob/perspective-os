@@ -1,4 +1,4 @@
 {
   "installCommand": "cd ../.. && npm install",
-  "buildCommand": "cd ../.. && npm run db:migrate && npm run build"
+  "buildCommand": "cd ../.. && npm run build"
 }

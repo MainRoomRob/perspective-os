@@ -65,7 +65,13 @@ UI uses [`@mainroomstudio/design-system`](https://github.com/MainRoomRob/mrs-des
 1. Create a [Neon](https://console.neon.tech) project and copy the **pooled** connection string.
 2. Import [MainRoomRob/perspective-os](https://github.com/MainRoomRob/perspective-os) in [Vercel](https://vercel.com/new).
 3. **Root Directory:** `apps/web` — enable **Include source files outside of Root Directory** (monorepo).
-4. Set environment variables (Production + Preview):
+4. Apply migrations to your production database (once, from your machine):
+
+```bash
+DATABASE_URL="postgresql://..." npm run db:init
+```
+
+5. Set environment variables in Vercel (Production + Preview):
 
 | Variable | Purpose |
 |----------|---------|
@@ -73,7 +79,7 @@ UI uses [`@mainroomstudio/design-system`](https://github.com/MainRoomRob/mrs-des
 | `OPENAI_API_KEY` | Live AI (required for production demo) |
 | `OPENAI_MODEL` | Optional, default `gpt-4o-mini` |
 
-5. Deploy. The build runs `npm run db:migrate` then `npm run build`.
+6. Deploy (build runs `npm run build` only). If a deploy still fails, use **Redeploy → Clear build cache**.
 
 Use a **separate Neon project or branch** for production — do not share your local dev database.
 
