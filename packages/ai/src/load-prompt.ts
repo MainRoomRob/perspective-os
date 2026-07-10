@@ -1,28 +1,22 @@
-import { readFileSync } from "node:fs";
-import { dirname, join } from "node:path";
-import { fileURLToPath } from "node:url";
+import "server-only";
 
-const PROMPT_DIR = join(
-  dirname(fileURLToPath(import.meta.url)),
-  "../prompts/v1",
-);
+import briefingDelta from "../prompts/v1/briefing-delta.md";
+import buildMissingPerspective from "../prompts/v1/build-missing-perspective.md";
+import recommendRoster from "../prompts/v1/recommend-roster.md";
+import step1MultiPerspective from "../prompts/v1/step-1-multi-perspective.md";
+import step2ContradictionMap from "../prompts/v1/step-2-contradiction-map.md";
+import step3Synthesis from "../prompts/v1/step-3-synthesis.md";
+import step4PeerReview from "../prompts/v1/step-4-peer-review.md";
 
-const PROMPT_FILES = [
-  "step-1-multi-perspective.md",
-  "step-2-contradiction-map.md",
-  "step-3-synthesis.md",
-  "step-4-peer-review.md",
-  "build-missing-perspective.md",
-  "briefing-delta.md",
-  "recommend-roster.md",
-] as const;
-
-const PROMPTS: Record<string, string> = Object.fromEntries(
-  PROMPT_FILES.map((name) => [
-    name,
-    readFileSync(join(PROMPT_DIR, name), "utf-8"),
-  ]),
-);
+const PROMPTS: Record<string, string> = {
+  "step-1-multi-perspective.md": step1MultiPerspective,
+  "step-2-contradiction-map.md": step2ContradictionMap,
+  "step-3-synthesis.md": step3Synthesis,
+  "step-4-peer-review.md": step4PeerReview,
+  "build-missing-perspective.md": buildMissingPerspective,
+  "briefing-delta.md": briefingDelta,
+  "recommend-roster.md": recommendRoster,
+};
 
 export function loadPrompt(name: string): string {
   const text = PROMPTS[name];
