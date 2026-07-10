@@ -15,7 +15,7 @@ export default async function HomePage() {
     <AppLayout>
       <section className="cover">
         <p className="text-label">Research framework</p>
-        <h1 className="text-h1 cover__title">Multi-perspective research</h1>
+        <h1 className="text-display cover__title">Multi-perspective research</h1>
         <p className="text-body cover__lead">
           Run a topic through five expert lenses, map contradictions, synthesise
           a briefing, and peer-review the result.
