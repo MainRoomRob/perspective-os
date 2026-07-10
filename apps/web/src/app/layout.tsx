@@ -26,7 +26,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      data-theme="product-light"
+      data-theme="product-dark"
       className={`${display.variable} ${body.variable}`}
       suppressHydrationWarning
     >

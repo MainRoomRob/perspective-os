@@ -25,7 +25,7 @@ const ThemeContext = createContext<{
 
 export function ThemeProvider({
   children,
-  defaultTheme = "product-light",
+  defaultTheme = "product-dark",
 }: {
   children: ReactNode;
   defaultTheme?: ThemeId;
