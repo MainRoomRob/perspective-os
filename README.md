@@ -63,8 +63,9 @@ UI uses [`@mainroomstudio/design-system`](https://github.com/MainRoomRob/mrs-des
 ## Deploy (Vercel)
 
 1. Create a [Neon](https://console.neon.tech) project and copy the **pooled** connection string.
-2. Import this repo in [Vercel](https://vercel.com/new).
-3. Set environment variables (Production + Preview):
+2. Import [MainRoomRob/perspective-os](https://github.com/MainRoomRob/perspective-os) in [Vercel](https://vercel.com/new).
+3. **Root Directory:** `apps/web` — enable **Include source files outside of Root Directory** (monorepo).
+4. Set environment variables (Production + Preview):
 
 | Variable | Purpose |
 |----------|---------|
@@ -72,7 +73,7 @@ UI uses [`@mainroomstudio/design-system`](https://github.com/MainRoomRob/mrs-des
 | `OPENAI_API_KEY` | Live AI (required for production demo) |
 | `OPENAI_MODEL` | Optional, default `gpt-4o-mini` |
 
-4. Deploy. The build runs `npm run db:migrate` then `npm run build`.
+5. Deploy. The build runs `npm run db:migrate` then `npm run build`.
 
 Use a **separate Neon project or branch** for production — do not share your local dev database.
 
