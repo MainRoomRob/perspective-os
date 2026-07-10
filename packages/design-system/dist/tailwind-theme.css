@@ -1,0 +1,54 @@
+/**
+ * MainRoomStudio — Tailwind v4 theme
+ * Generated from design system tokens. Import after tokens.css, before tailwindcss.
+ */
+
+@theme {
+  --color-surface-primary: var(--surface-primary);
+  --color-surface-secondary: var(--surface-secondary);
+  --color-surface-inverse: var(--surface-inverse);
+  --color-text-primary: var(--text-primary);
+  --color-text-inverse: var(--text-inverse);
+  --color-text-muted: var(--text-muted);
+  --color-text-accent: var(--text-accent);
+  --color-border-default: var(--border-default);
+  --color-accent-primary: var(--accent-primary);
+  --color-accent-editorial: var(--accent-editorial);
+  --color-status-critical: var(--status-critical);
+  --color-soft-white: var(--color-soft-white);
+  --color-charcoal: var(--color-charcoal);
+  --color-sunny-days: var(--color-sunny-days);
+  --color-vermilion: var(--color-vermilion);
+  --color-pure-white: var(--color-pure-white);
+  --color-pure-black: var(--color-pure-black);
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+  --spacing-0: var(--spacing-0);
+  --spacing-1: var(--spacing-1);
+  --spacing-2: var(--spacing-2);
+  --spacing-3: var(--spacing-3);
+  --spacing-4: var(--spacing-4);
+  --spacing-5: var(--spacing-5);
+  --spacing-6: var(--spacing-6);
+  --spacing-7: var(--spacing-7);
+  --spacing-8: var(--spacing-8);
+  --spacing-9: var(--spacing-9);
+  --spacing-10: var(--spacing-10);
+  --radius-none: var(--radius-none);
+  --radius-sm: var(--radius-sm);
+  --max-width-grid: var(--grid-max-width);
+  --border-width-thin: var(--border-thin);
+  --border-width-medium: var(--border-medium);
+  --transition-duration-micro: var(--duration-micro);
+  --transition-duration-standard: var(--duration-standard);
+  --ease-standard: var(--easing-standard);
+  --text-display: var(--text-display-size);
+  --text-h1: var(--text-h1-size);
+  --text-h2: var(--text-h2-size);
+  --text-h3: var(--text-h3-size);
+  --text-h4: var(--text-h4-size);
+  --text-body-lg: var(--text-body-lg-size);
+  --text-body: var(--text-body-size);
+  --text-label: var(--text-label-size);
+  --text-caption: var(--text-caption-size);
+}

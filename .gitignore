@@ -1,0 +1,8 @@
+node_modules/
+.next/
+dist/
+!packages/design-system/dist/
+.env
+*.tsbuildinfo
+.DS_Store
+.vercel/

@@ -1,0 +1,24 @@
+{
+  "name": "@perspective-os/web-server",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./actions": "./src/actions.ts",
+    "./session-data": "./src/session-data.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@perspective-os/ai": "*",
+    "@perspective-os/core": "*",
+    "@perspective-os/db": "*",
+    "drizzle-orm": "^0.43.1",
+    "next": "^15.3.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.21",
+    "typescript": "^5.8.3"
+  }
+}

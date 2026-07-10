@@ -1,0 +1,29 @@
+{
+  "name": "@mainroomstudio/design-system",
+  "version": "0.1.0",
+  "description": "Vendored build of MainRoomStudio design system for deployment (source: MainRoomRob/mrs-design_system)",
+  "license": "UNLICENSED",
+  "private": true,
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    "./tokens.css": "./dist/tokens.css",
+    "./tailwind-theme.css": "./dist/tailwind-theme.css",
+    "./core.css": "./dist/core.css",
+    "./components.css": "./dist/components.css",
+    "./patterns.css": "./dist/patterns.css",
+    "./preview.css": "./dist/preview.css",
+    "./theme": "./dist/theme.js",
+    "./next": "./dist/next/ThemeProvider.tsx"
+  },
+  "peerDependencies": {
+    "react": ">=18"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    }
+  }
+}

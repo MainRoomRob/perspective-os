@@ -1,0 +1,31 @@
+{
+  "name": "perspective-os",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "node --env-file=.env node_modules/next/dist/bin/next dev apps/web",
+    "clean": "rm -rf apps/web/.next",
+    "dev:clean": "npm run clean && npm run dev",
+    "build": "npm run build -w @perspective-os/web",
+    "db:generate": "npm run generate -w @perspective-os/db",
+    "db:migrate": "node --env-file=.env scripts/db-init.mjs",
+    "db:push": "npm run push -w @perspective-os/db",
+    "db:init": "node --env-file=.env scripts/db-init.mjs",
+    "db:studio": "npm run studio -w @perspective-os/db",
+    "typecheck": "npm run typecheck -w @perspective-os/core && npm run typecheck -w @perspective-os/ai && npm run typecheck -w @perspective-os/db && npm run typecheck -w @perspective-os/web-server && npm run typecheck -w @perspective-os/web",
+    "env:sync-keys": "node scripts/sync-llm-env.mjs",
+    "pipeline:smoke": "node --env-file=.env --import tsx scripts/pipeline-smoke.mjs",
+    "e2e:smoke": "node --env-file=.env --import tsx scripts/e2e-smoke.mjs",
+    "postinstall": "node scripts/link-design-system.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.4",
+    "typescript": "^5.8.3"
+  }
+}

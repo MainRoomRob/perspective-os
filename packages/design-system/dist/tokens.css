@@ -1,0 +1,226 @@
+/**
+ * MainRoomStudio design tokens
+ * Source of truth: ../tokens/global/*.json, ../tokens/palettes/*.json
+ */
+
+:root {
+  /* Typography families */
+  --font-display: "Sofia Sans Extra Condensed", sans-serif;
+  --font-body: "Barlow", sans-serif;
+
+  /* Spacing */
+  --spacing-0: 0;
+  --spacing-1: 4px;
+  --spacing-2: 8px;
+  --spacing-3: 16px;
+  --spacing-4: 24px;
+  --spacing-5: 32px;
+  --spacing-6: 48px;
+  --spacing-7: 64px;
+  --spacing-8: 96px;
+  --spacing-9: 128px;
+  --spacing-10: 192px;
+
+  /* Grid */
+  --grid-columns: 12;
+  --grid-max-width: 1200px;
+  --grid-gutter: 24px;
+  --grid-margin: 64px;
+
+  /* Shape */
+  --radius-none: 0;
+  --radius-sm: 4px;
+  --border-thin: 1px;
+  --border-medium: 2px;
+
+  /* Motion */
+  --duration-micro: 150ms;
+  --duration-standard: 300ms;
+  --easing-standard: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Type scale — desktop defaults */
+  --text-display-size: 120px;
+  --text-display-weight: 900;
+  --text-display-lh: 1;
+  --text-display-ls: -1px;
+
+  --text-h1-size: 74px;
+  --text-h1-weight: 700;
+  --text-h1-lh: 1;
+  --text-h1-ls: -1px;
+
+  --text-h2-size: 50px;
+  --text-h2-weight: 600;
+  --text-h2-lh: 1.1;
+  --text-h2-ls: -1px;
+
+  --text-h3-size: 36px;
+  --text-h3-weight: 600;
+  --text-h3-lh: 1.1;
+
+  --text-h4-size: 24px;
+  --text-h4-weight: 500;
+  --text-h4-lh: 1.2;
+
+  --text-body-lg-size: 20px;
+  --text-body-size: 18px;
+  --text-body-lh: 1.45;
+
+  --text-label-size: 11px;
+  --text-label-weight: 500;
+  --text-label-lh: 1.2;
+  --text-label-ls: 0.5px;
+
+  --text-caption-size: 12px;
+  --text-caption-lh: 1.35;
+
+  /* Editorial neutrals — fixed across master palettes */
+  --color-pure-white: #FFFFFF;
+  --color-pure-black: #0D1117;
+}
+
+/* ─── Master palette: MainRoom (default) ─── */
+
+:root,
+[data-palette="mrs"] {
+  --color-soft-white: #E1DFD4;
+  --color-surface-secondary: #C8C5B8;
+  --color-charcoal: #262626;
+  --color-sunny-days: #E6C239;
+  --color-vermilion: #E04535;
+  --color-surface-dark-secondary: #1A1A1A;
+}
+
+/* ─── Master palette: Braun signal (DR06 poster) ─── */
+
+[data-palette="braun-signal"] {
+  --color-soft-white: #D9D2C6;
+  --color-surface-secondary: color-mix(in srgb, #736B1E 22%, #D9D2C6);
+  --color-charcoal: #2E2A0F;
+  --color-sunny-days: #ED8008;
+  --color-vermilion: #BF1B1B;
+  --color-surface-dark-secondary: color-mix(in srgb, #2E2A0F 88%, #000000);
+}
+
+/* ─── Master palette: Slate & sand (DR05 poster) ─── */
+
+[data-palette="slate-sand"] {
+  --color-soft-white: #D9C3B0;
+  --color-surface-secondary: #BFA07A;
+  --color-charcoal: #3B4B59;
+  --color-sunny-days: #CC6324;
+  --color-vermilion: #AF2E1B;
+  --color-surface-dark-secondary: color-mix(in srgb, #3B4B59 72%, #000000);
+}
+
+/* ─── Master palette: Earthy ochre (DR03 poster) ─── */
+
+[data-palette="earthy-ochre"] {
+  --color-soft-white: #E1E4E1;
+  --color-surface-secondary: #C09C6F;
+  --color-charcoal: #5F503E;
+  --color-sunny-days: #BF7C2A;
+  --color-vermilion: #8B4510;
+  --color-surface-dark-secondary: color-mix(in srgb, #5F503E 68%, #000000);
+}
+
+/* ─── Master palette: Cool industrial (DR01 poster) ─── */
+
+[data-palette="cool-industrial"] {
+  --color-soft-white: #BFB1A8;
+  --color-surface-secondary: #AAB7BF;
+  --color-charcoal: #261201;
+  --color-sunny-days: #AD1D1D;
+  --color-vermilion: #8A1717;
+  --color-surface-dark-secondary: color-mix(in srgb, #261201 82%, #000000);
+}
+
+/* ─── Colour modes ─── */
+
+/* Product Light (default UI) */
+[data-theme="product-light"],
+:root {
+  --surface-primary: var(--color-soft-white);
+  --surface-secondary: var(--color-surface-secondary);
+  --surface-inverse: var(--color-charcoal);
+  --text-primary: var(--color-charcoal);
+  --text-inverse: var(--color-soft-white);
+  --text-muted: color-mix(in srgb, var(--color-charcoal) 50%, transparent);
+  --text-accent: var(--color-sunny-days);
+  --border-default: color-mix(in srgb, var(--color-charcoal) 15%, transparent);
+  --accent-primary: var(--color-sunny-days);
+  --accent-editorial: var(--color-vermilion);
+  --status-critical: var(--color-vermilion);
+}
+
+/* Product Dark */
+[data-theme="product-dark"] {
+  --surface-primary: var(--color-charcoal);
+  --surface-secondary: var(--color-surface-dark-secondary);
+  --surface-inverse: var(--color-soft-white);
+  --text-primary: var(--color-soft-white);
+  --text-inverse: var(--color-charcoal);
+  --text-muted: color-mix(in srgb, var(--color-soft-white) 50%, transparent);
+  --text-accent: var(--color-sunny-days);
+  --border-default: color-mix(in srgb, var(--color-soft-white) 15%, transparent);
+  --accent-primary: var(--color-sunny-days);
+  --accent-editorial: var(--color-vermilion);
+  --status-critical: var(--color-vermilion);
+}
+
+/* Editorial Light */
+[data-theme="editorial-light"] {
+  --surface-primary: var(--color-pure-white);
+  --surface-secondary: #F5F5F5;
+  --surface-inverse: var(--color-pure-black);
+  --text-primary: var(--color-pure-black);
+  --text-inverse: var(--color-pure-white);
+  --text-muted: color-mix(in srgb, var(--color-pure-black) 50%, transparent);
+  --text-accent: var(--color-sunny-days);
+  --border-default: color-mix(in srgb, var(--color-pure-black) 15%, transparent);
+  --accent-primary: var(--color-sunny-days);
+  --accent-editorial: var(--color-vermilion);
+  --status-critical: var(--color-vermilion);
+}
+
+/* Editorial Dark */
+[data-theme="editorial-dark"] {
+  --surface-primary: var(--color-pure-black);
+  --surface-secondary: #161B22;
+  --surface-inverse: var(--color-pure-white);
+  --text-primary: var(--color-pure-white);
+  --text-inverse: var(--color-pure-black);
+  --text-muted: color-mix(in srgb, var(--color-pure-white) 50%, transparent);
+  --text-accent: var(--color-sunny-days);
+  --border-default: color-mix(in srgb, var(--color-pure-white) 15%, transparent);
+  --accent-primary: var(--color-sunny-days);
+  --accent-editorial: var(--color-vermilion);
+  --status-critical: var(--color-vermilion);
+}
+
+@media (max-width: 1440px) {
+  :root {
+    --text-display-size: 100px;
+    --text-h1-size: 48px;
+    --text-h2-size: 40px;
+    --text-h3-size: 30px;
+    --text-h4-size: 22px;
+    --text-body-lg-size: 18px;
+    --text-body-size: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --grid-gutter: 16px;
+    --grid-margin: 24px;
+    --text-display-size: 48px;
+    --text-display-weight: 700;
+    --text-h1-size: 40px;
+    --text-h2-size: 34px;
+    --text-h3-size: 28px;
+    --text-h4-size: 20px;
+    --text-body-lg-size: 16px;
+    --text-body-size: 14px;
+  }
+}

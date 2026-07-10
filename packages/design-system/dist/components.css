@@ -1,0 +1,630 @@
+/* ─── Components ─── */
+
+.components-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: var(--spacing-6);
+}
+
+.component-block {
+  grid-column: span 6;
+  padding: var(--spacing-5);
+  border: var(--border-thin) solid var(--border-default);
+}
+
+.component-block--full {
+  grid-column: span 12;
+}
+
+.component-block__title {
+  margin: 0 0 var(--spacing-4);
+}
+
+.component-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-3);
+  align-items: center;
+}
+
+/* Button */
+.btn {
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 500;
+  padding: 12px 16px;
+  border: none;
+  cursor: pointer;
+  transition: all var(--duration-micro) var(--easing-standard);
+}
+
+.btn--primary {
+  background: var(--accent-primary);
+  color: var(--color-charcoal);
+}
+
+.btn--primary:hover {
+  background: #D4B030;
+}
+
+.btn--secondary {
+  background: transparent;
+  color: var(--text-primary);
+  border: var(--border-thin) solid var(--border-default);
+}
+
+.btn--secondary:hover {
+  background: var(--surface-secondary);
+}
+
+.btn--text {
+  background: transparent;
+  color: var(--text-primary);
+  padding-inline: 0;
+}
+
+.btn--text:hover {
+  color: var(--text-muted);
+}
+
+.btn--destructive {
+  background: var(--status-critical);
+  color: var(--color-soft-white);
+}
+
+.btn--destructive:hover {
+  background: #C93D2F;
+}
+
+/* Input */
+.field {
+  width: 100%;
+  max-width: 320px;
+}
+
+.field .text-label {
+  display: block;
+  margin-bottom: var(--spacing-2);
+}
+
+.field .rule {
+  margin-bottom: var(--spacing-3);
+}
+
+.field input {
+  width: 100%;
+  font-family: var(--font-body);
+  font-size: var(--text-body-size);
+  color: var(--text-primary);
+  background: transparent;
+  border: none;
+  border-bottom: var(--border-thin) solid var(--border-default);
+  padding-bottom: 12px;
+  outline: none;
+  transition: border-color var(--duration-micro) var(--easing-standard);
+}
+
+.field input:focus {
+  border-bottom-width: var(--border-medium);
+  border-bottom-color: var(--accent-primary);
+}
+
+.field input::placeholder {
+  color: var(--text-muted);
+}
+
+/* Radio */
+.radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+}
+
+.radio {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.radio__circle {
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid var(--border-default);
+  border-radius: 50%;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.radio--active .radio__circle {
+  border-color: var(--accent-primary);
+}
+
+.radio--active .radio__circle::after {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  background: var(--accent-primary);
+  border-radius: 50%;
+}
+
+.radio--inactive .radio__label {
+  color: var(--text-muted);
+}
+
+/* Data display */
+.data-display-brand__header {
+  margin-bottom: var(--spacing-3);
+}
+
+.data-hero {
+  font-family: var(--font-display);
+  font-size: clamp(64px, 10vw, var(--text-display-size));
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -2px;
+}
+
+.data-hero-label {
+  font-size: var(--text-label-size);
+  font-weight: var(--text-label-weight);
+  letter-spacing: var(--text-label-ls);
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-top: var(--spacing-2);
+  margin-bottom: var(--spacing-5);
+}
+
+.data-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--spacing-3);
+  padding-top: var(--spacing-5);
+  border-top: var(--border-thin) solid var(--border-default);
+}
+
+.data-cell__label {
+  font-size: var(--text-label-size);
+  font-weight: var(--text-label-weight);
+  letter-spacing: var(--text-label-ls);
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: var(--spacing-1);
+}
+
+.data-cell__value {
+  font-family: var(--font-display);
+  font-size: var(--text-h4-size);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ─── Scoring graphics ─── */
+
+.scoring-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: var(--spacing-5);
+}
+
+.score-card {
+  grid-column: span 4;
+  padding: var(--spacing-5);
+  border: var(--border-thin) solid var(--border-default);
+}
+
+.score-card--wide {
+  grid-column: span 12;
+}
+
+.score-card__body--vu {
+  display: flex;
+  min-height: 240px;
+}
+
+.score-card__body--vu .vu-meter {
+  flex: 1;
+  width: 100%;
+}
+
+.score-card__body--arc {
+  display: flex;
+  justify-content: center;
+}
+
+/* Signal Clarity — VU meter */
+.vu-meter {
+  display: flex;
+  gap: var(--spacing-5);
+  align-items: stretch;
+}
+
+.vu-meter__scale-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-2);
+  flex-shrink: 0;
+  align-self: stretch;
+}
+
+.vu-meter__scale-label {
+  font-size: var(--text-caption-size);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.vu-meter__segments {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 5px;
+  width: 56px;
+  flex: 1 1 auto;
+  min-height: 200px;
+}
+
+.vu-segment {
+  flex: 1 1 0;
+  min-height: 14px;
+  background: var(--border-default);
+  position: relative;
+}
+
+.vu-segment__fill {
+  position: absolute;
+  inset: 0;
+  background: var(--text-primary);
+}
+
+/* Yellow needle — marks top of strength, same role as tuner-meter__needle */
+.vu-segment.is-endpoint::after {
+  content: "";
+  position: absolute;
+  top: -3px;
+  left: -4px;
+  right: -4px;
+  height: 2px;
+  background: var(--accent-primary);
+  z-index: 1;
+}
+
+.vu-meter__readout {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-self: center;
+  min-width: 0;
+}
+
+.vu-meter__score {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+}
+
+.vu-meter__value-row {
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
+}
+
+.vu-meter__value {
+  font-family: var(--font-display);
+  font-size: clamp(48px, 8vw, 64px);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -2px;
+}
+
+.vu-meter__value-unit {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--text-muted);
+  letter-spacing: 0;
+}
+
+.vu-meter__caption,
+.tuner-meter__caption,
+.touchpoint-meter__caption,
+.arc-meter__caption {
+  margin: 0;
+  max-width: 32ch;
+}
+
+/* Alignment Index — tuner meter */
+.tuner-meter__score {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+  margin-bottom: var(--spacing-4);
+}
+
+.tuner-meter__value-row {
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
+}
+
+.tuner-meter__value {
+  font-family: var(--font-display);
+  font-size: clamp(48px, 8vw, 64px);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -2px;
+}
+
+.tuner-meter__value-unit {
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--text-muted);
+  letter-spacing: 0;
+}
+
+.tuner-meter__track {
+  position: relative;
+  height: 8px;
+  background: var(--border-default);
+  margin-bottom: var(--spacing-2);
+}
+
+.tuner-meter__fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  background: var(--text-primary);
+  transition: width var(--duration-standard) var(--easing-standard);
+}
+
+.tuner-meter__needle {
+  position: absolute;
+  top: 50%;
+  width: 2px;
+  height: 20px;
+  background: var(--accent-primary);
+  transform: translate(-50%, -50%);
+  transition: left var(--duration-standard) var(--easing-standard);
+}
+
+.tuner-meter__ticks {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--text-caption-size);
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Touchpoint Consistency */
+.touchpoint-meter__bars {
+  display: flex;
+  gap: var(--spacing-4);
+  align-items: flex-end;
+  justify-content: space-between;
+  height: 140px;
+  margin-bottom: var(--spacing-2);
+}
+
+.touchpoint-bar {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  max-width: 64px;
+}
+
+.touchpoint-bar__track {
+  flex: 1;
+  width: 100%;
+  max-width: 28px;
+  background: var(--border-default);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  position: relative;
+}
+
+.touchpoint-bar__fill {
+  width: 100%;
+  background: var(--text-primary);
+  transition: height var(--duration-standard) var(--easing-standard);
+  position: relative;
+}
+
+.touchpoint-bar__fill--low {
+  background: var(--text-muted);
+}
+
+/* Yellow needle — marks lowest touchpoint score (endpoint of fill) */
+.touchpoint-bar__fill--endpoint::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -4px;
+  right: -4px;
+  height: 2px;
+  background: var(--accent-primary);
+  z-index: 1;
+}
+
+.touchpoint-bar__label {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  color: var(--text-muted);
+  margin-top: var(--spacing-2);
+}
+
+.touchpoint-bar__score {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  margin-top: 2px;
+}
+
+/* Message Resonance — arc gauge */
+.arc-meter {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.arc-meter__inner {
+  width: 100%;
+  max-width: 240px;
+}
+
+.score-card--wide .arc-meter__inner {
+  max-width: 280px;
+}
+
+.arc-meter__gauge {
+  position: relative;
+}
+
+.arc-meter__gauge .arc-meter__value-row {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
+  white-space: nowrap;
+}
+
+.arc-meter__value {
+  font-family: var(--font-display);
+  font-size: clamp(36px, 7vw, 48px);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -1px;
+}
+
+.arc-meter__value-unit {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--text-muted);
+  letter-spacing: 0;
+}
+
+.arc-meter__svg {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.arc-meter__bg {
+  stroke: var(--border-default);
+}
+
+.arc-meter__fill {
+  stroke: var(--text-primary);
+  stroke-linecap: butt;
+}
+
+.arc-meter__tick {
+  stroke: var(--text-muted);
+  stroke-width: 2;
+}
+
+.arc-meter__needle {
+  stroke: var(--accent-primary);
+  stroke-width: 2;
+  stroke-linecap: square;
+}
+
+.arc-meter__labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--text-caption-size);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  /* Match arc inset: endpoints at 10% / 90% of the 200-unit viewBox */
+  padding-inline: 10%;
+  margin-top: var(--spacing-2);
+}
+
+.arc-meter__caption {
+  margin: var(--spacing-3) auto 0;
+  max-width: 32ch;
+  text-align: center;
+}
+
+/* Card */
+.card {
+  padding: var(--spacing-5);
+  background: var(--surface-primary);
+  border: var(--border-thin) solid var(--border-default);
+}
+
+.card--filled {
+  background: var(--surface-secondary);
+  border: none;
+}
+
+.card--inverse {
+  background: var(--surface-inverse);
+  color: var(--text-inverse);
+  border: none;
+}
+
+.card--inverse .text-label,
+.card--inverse .text-caption {
+  color: rgba(225, 223, 212, 0.5);
+}
+
+/* Navigation */
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-5);
+  max-width: 240px;
+}
+
+.nav__rule {
+  margin-block: var(--spacing-2) var(--spacing-3);
+}
+
+.nav__list,
+.nav__list > li {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+}
+
+.nav a.nav__link {
+  display: block;
+  padding: var(--spacing-2) var(--spacing-3);
+  padding-left: var(--spacing-3);
+  font-size: var(--text-body-size);
+  color: var(--text-muted);
+  border-left: 2px solid transparent;
+  transition: color var(--duration-micro) var(--easing-standard),
+    border-color var(--duration-micro) var(--easing-standard);
+}
+
+.nav a.nav__link:hover {
+  color: var(--text-primary);
+}
+
+.nav a.nav__link--active {
+  color: var(--text-primary);
+  font-weight: 500;
+  border-left-color: var(--accent-primary);
+  padding-left: calc(var(--spacing-3) - 2px);
+}
+
