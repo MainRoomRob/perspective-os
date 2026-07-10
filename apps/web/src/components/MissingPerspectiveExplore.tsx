@@ -93,6 +93,8 @@ export function MissingPerspectiveExplore({
     });
   }, [refresh, replaceSlot, sessionId]);
 
+  const rosterSlots = perspectiveConfig?.length === 5 ? perspectiveConfig : null;
+
   return (
     <>
       <AiOperationProgress
@@ -133,38 +135,61 @@ export function MissingPerspectiveExplore({
         <div className="stack-gap-6">
           <SupplementaryPerspectivePanel perspective={built} />
           <BriefingDeltaView delta={delta} />
-          <div className="action-row stack-gap-3">
+          <section className="supplementary-actions" aria-labelledby="supplementary-actions-title">
+            <p id="supplementary-actions-title" className="text-label">
+              Apply this lens
+            </p>
+            <p className="text-caption text-muted supplementary-actions__lead">
+              Save it for a future session, or swap it into your roster and
+              re-run from Scan.
+            </p>
+
+            <div className="supplementary-actions__rerun">
+              <p className="text-body supplementary-actions__rerun-title">
+                Re-run Scan with this lens
+              </p>
+              <p className="text-caption text-muted">
+                Clears all step outputs and replaces one slot in your current
+                roster.
+              </p>
+              <div className="supplementary-actions__rerun-row">
+                <label className="field supplementary-actions__slot-field">
+                  <span className="text-label">Replace roster slot</span>
+                  <span className="rule" />
+                  <select
+                    value={replaceSlot}
+                    onChange={(e) => setReplaceSlot(Number(e.target.value))}
+                    disabled={pending}
+                  >
+                    {[0, 1, 2, 3, 4].map((n) => (
+                      <option key={n} value={n}>
+                        {rosterSlots?.[n]?.name
+                          ? `Slot ${n + 1} — ${rosterSlots[n].name}`
+                          : `Slot ${n + 1}`}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                <button
+                  type="button"
+                  className="btn btn--primary supplementary-actions__rerun-btn"
+                  disabled={pending}
+                  onClick={rerunWithLens}
+                >
+                  Re-run Scan
+                </button>
+              </div>
+            </div>
+
             <button
               type="button"
-              className="btn btn--text"
+              className="btn btn--text supplementary-actions__save"
               disabled={pending}
               onClick={saveToCustomPreset}
             >
               Save to custom preset (next session)
             </button>
-            <label className="text-caption text-muted rerun-slot-picker">
-              Replace slot{" "}
-              <select
-                value={replaceSlot}
-                onChange={(e) => setReplaceSlot(Number(e.target.value))}
-                disabled={pending}
-              >
-                {[0, 1, 2, 3, 4].map((n) => (
-                  <option key={n} value={n}>
-                    {n + 1}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <button
-              type="button"
-              className="btn btn--secondary"
-              disabled={pending}
-              onClick={rerunWithLens}
-            >
-              Re-run Scan with this lens
-            </button>
-          </div>
+          </section>
         </div>
       ) : null}
     </>

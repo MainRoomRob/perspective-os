@@ -454,6 +454,86 @@ a.source-link:hover {
   margin-top: var(--spacing-2);
 }
 
-.rerun-slot-picker select {
-  margin-left: var(--spacing-1);
+/* ─── Supplementary lens: apply actions (Review step) ─── */
+
+.supplementary-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+  padding-top: var(--spacing-5);
+  border-top: var(--border-thin) solid var(--border-default);
+  max-width: 36rem;
+}
+
+.supplementary-actions__lead {
+  margin: calc(-1 * var(--spacing-2)) 0 0;
+  max-width: 52ch;
+}
+
+.supplementary-actions__rerun {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+  padding: var(--spacing-4);
+  border: var(--border-thin) solid var(--border-default);
+  background: color-mix(in srgb, var(--surface-secondary) 45%, var(--surface-primary));
+}
+
+.supplementary-actions__rerun-title {
+  margin: 0;
+  font-weight: 500;
+}
+
+.supplementary-actions__rerun-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--spacing-3) var(--spacing-4);
+  margin-top: var(--spacing-2);
+}
+
+.supplementary-actions__slot-field {
+  flex: 1 1 14rem;
+  min-width: 0;
+  margin: 0;
+}
+
+.field select {
+  width: 100%;
+  font-family: var(--font-body);
+  font-size: var(--text-body-size);
+  color: var(--text-primary);
+  background-color: transparent;
+  border: none;
+  border-bottom: var(--border-thin) solid var(--border-default);
+  padding: 0 1.5rem 12px 0;
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, var(--text-muted) 50%),
+    linear-gradient(135deg, var(--text-muted) 50%, transparent 50%);
+  background-position:
+    calc(100% - 14px) calc(50% + 4px),
+    calc(100% - 9px) calc(50% + 4px);
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+  transition: border-color var(--duration-micro) var(--easing-standard);
+}
+
+.field select:focus {
+  border-bottom-width: var(--border-medium);
+  border-bottom-color: var(--accent-primary);
+}
+
+.field select:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.supplementary-actions__rerun-btn {
+  flex: 0 0 auto;
+}
+
+.supplementary-actions__save {
+  align-self: flex-start;
 }
