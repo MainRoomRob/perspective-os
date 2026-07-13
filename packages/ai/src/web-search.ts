@@ -1,7 +1,12 @@
-import type { PerspectiveSource, SourceType } from "@perspective-os/core";
+import type { PerspectiveSource, SearchRecencyWindow, SourceType } from "@perspective-os/core";
 import { tavily } from "@tavily/core";
 
 const EXCERPT_MAX = 300;
+
+export type SearchWebOptions = {
+  timeRange?: SearchRecencyWindow;
+  topic?: "general" | "news";
+};
 
 function publisherFromUrl(url: string): string {
   try {
@@ -46,7 +51,21 @@ function truncateExcerpt(text: string): string {
   return `${trimmed.slice(0, EXCERPT_MAX - 1).trimEnd()}…`;
 }
 
-export async function searchWeb(query: string): Promise<PerspectiveSource[]> {
+function normalizePublishedAt(raw: string | undefined | null): string | undefined {
+  if (!raw?.trim()) return undefined;
+  const value = raw.trim();
+  if (/^\d{4}-\d{2}-\d{2}$/.test(value)) {
+    return `${value}T00:00:00.000Z`;
+  }
+  const parsed = new Date(value);
+  if (Number.isNaN(parsed.getTime())) return undefined;
+  return parsed.toISOString();
+}
+
+export async function searchWeb(
+  query: string,
+  options?: SearchWebOptions,
+): Promise<PerspectiveSource[]> {
   const apiKey = process.env.TAVILY_API_KEY?.trim();
   if (!apiKey) {
     throw new Error("Web search is not configured (set TAVILY_API_KEY)");
@@ -57,6 +76,8 @@ export async function searchWeb(query: string): Promise<PerspectiveSource[]> {
     searchDepth: "advanced",
     chunksPerSource: 3,
     maxResults: 10,
+    ...(options?.timeRange ? { timeRange: options.timeRange } : {}),
+    ...(options?.topic ? { topic: options.topic } : {}),
   });
 
   const retrievedAt = new Date().toISOString();
@@ -73,6 +94,7 @@ export async function searchWeb(query: string): Promise<PerspectiveSource[]> {
         url,
         sourceType: inferSourceType(url, result.title),
         excerpt: result.content ? truncateExcerpt(result.content) : undefined,
+        publishedAt: normalizePublishedAt(result.publishedDate),
         retrievedAt,
       } satisfies PerspectiveSource;
     });

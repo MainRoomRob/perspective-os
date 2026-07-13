@@ -6,6 +6,7 @@ import type {
   SynthesisOutput,
 } from "@perspective-os/core";
 import { STEP_LABELS, resolveConfidenceFindingTitle, resolveFindingAuditLabel } from "@perspective-os/core";
+import { formatSourceRecency } from "./format-source-recency";
 
 export function renderStepMarkdown(
   step: ResearchStep,
@@ -36,11 +37,15 @@ function formatSourceMarkdown(source: {
   title: string;
   publisher: string;
   url?: string;
+  publishedAt?: string;
+  retrievedAt?: string;
 }): string {
+  const recency = formatSourceRecency(source);
+  const dateSuffix = recency ? `, ${recency}` : "";
   if (source.url) {
-    return `[${source.title}](${source.url}) (${source.publisher})`;
+    return `[${source.title}](${source.url}) (${source.publisher}${dateSuffix})`;
   }
-  return `${source.title} (${source.publisher})`;
+  return `${source.title} (${source.publisher}${dateSuffix})`;
 }
 
 function renderStep1(output: MultiPerspectiveOutput): string {

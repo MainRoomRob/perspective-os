@@ -47,7 +47,9 @@ export const perspectiveSourceSchema = z.object({
   url: z.string().url().optional(),
   sourceType: sourceTypeSchema,
   excerpt: z.string().max(300).optional(),
+  publishedAt: z.string().datetime().optional(),
   retrievedAt: z.string().datetime().optional(),
+  searchPool: z.enum(["recent", "historical"]).optional(),
 });
 
 export type PerspectiveSource = z.infer<typeof perspectiveSourceSchema>;
@@ -160,6 +162,7 @@ export type BriefingDelta = z.infer<typeof briefingDeltaSchema>;
 export const sessionExtrasSchema = z.object({
   supplementaryPerspective: supplementaryExpertPerspectiveSchema.optional(),
   briefingDelta: briefingDeltaSchema.optional(),
+  gatheredSources: z.array(perspectiveSourceSchema).optional(),
 });
 
 export type SessionExtras = z.infer<typeof sessionExtrasSchema>;

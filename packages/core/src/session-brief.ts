@@ -9,11 +9,16 @@ export const sessionBriefSchema = z.object({
 
 export type SessionBrief = z.infer<typeof sessionBriefSchema>;
 
+export const searchRecencyWindowSchema = z.enum(["week", "month", "year"]);
+
+export type SearchRecencyWindow = z.infer<typeof searchRecencyWindowSchema>;
+
 /** Stored in `research_sessions.brief` jsonb (topic/role remain on the row). */
 export const sessionBriefExtrasSchema = z.object({
   decision: z.string().min(1).max(500),
   context: z.string().max(1000).optional(),
   useWebSearch: z.boolean().optional(),
+  searchRecencyWindow: searchRecencyWindowSchema.optional(),
 });
 
 export type SessionBriefExtras = z.infer<typeof sessionBriefExtrasSchema>;
@@ -75,12 +80,15 @@ export function parseSessionBriefFromFormData(formData: FormData): SessionBrief 
 
 export function sessionBriefExtrasFromBrief(
   brief: SessionBrief,
-  options?: { useWebSearch?: boolean },
+  options?: { useWebSearch?: boolean; searchRecencyWindow?: SearchRecencyWindow },
 ): SessionBriefExtras {
   return sessionBriefExtrasSchema.parse({
     decision: brief.decision,
     context: brief.context,
     ...(options?.useWebSearch ? { useWebSearch: true } : {}),
+    ...(options?.useWebSearch && options.searchRecencyWindow
+      ? { searchRecencyWindow: options.searchRecencyWindow }
+      : {}),
   });
 }
 

@@ -129,6 +129,7 @@ export function buildPipelineContext(detail: SessionDetail) {
     role: brief.role,
     perspectiveConfig: detail.perspectiveConfig,
     useWebSearch: detail.brief?.useWebSearch ?? false,
+    searchRecencyWindow: detail.brief?.searchRecencyWindow,
     step1: get<MultiPerspectiveOutput>(1),
     step2: get<ContradictionMapOutput>(2),
     step3: get<SynthesisOutput>(3),

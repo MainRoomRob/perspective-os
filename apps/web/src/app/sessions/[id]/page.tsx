@@ -11,6 +11,12 @@ import { AppLayout } from "@/shell/AppLayout";
 
 export const dynamic = "force-dynamic";
 
+const SEARCH_RECENCY_LABELS = {
+  week: "past week",
+  month: "past month",
+  year: "past year",
+} as const;
+
 export default async function SessionPage({
   params,
   searchParams,
@@ -53,7 +59,9 @@ export default async function SessionPage({
               <PerspectiveRosterTags slots={roster} />
               {detail.brief?.useWebSearch ? (
                 <span className="status-badge" data-status="draft">
-                  Web search
+                  {detail.brief.searchRecencyWindow
+                    ? `Web search · ${SEARCH_RECENCY_LABELS[detail.brief.searchRecencyWindow]}`
+                    : "Web search"}
                 </span>
               ) : null}
             </div>

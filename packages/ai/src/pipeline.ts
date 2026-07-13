@@ -3,9 +3,11 @@ import type {
   MultiPerspectiveOutput,
   PeerReviewOutput,
   ResearchStep,
+  SearchRecencyWindow,
   SessionBrief,
   SynthesisOutput,
 } from "@perspective-os/core";
+import type { PerspectiveSource } from "@perspective-os/core";
 import {
   type PerspectiveSlot,
   contradictionMapOutputNewSchema,
@@ -26,10 +28,8 @@ import {
 } from "./mock-fixtures";
 import { parseJsonResponse } from "./parse-json";
 import { renderStepMarkdown } from "./render-markdown";
-import {
-  formatResearchContextBlock,
-  gatherResearchContext,
-} from "./research-gather";
+import { gatherResearchContext } from "./research-gather";
+import { enrichMultiPerspectiveOutput } from "./enrich-sources";
 
 const PROMPT_FILES: Record<ResearchStep, string> = {
   1: "step-1-multi-perspective.md",
@@ -49,6 +49,7 @@ export type PipelineContext = {
   brief: SessionBrief;
   perspectiveConfig?: PerspectiveSlot[] | null;
   useWebSearch?: boolean;
+  searchRecencyWindow?: SearchRecencyWindow;
   step1?: MultiPerspectiveOutput;
   step2?: ContradictionMapOutput;
   step3?: SynthesisOutput;
@@ -60,6 +61,7 @@ export type StepRunResult<T> = {
   mock: boolean;
   model?: string;
   provider?: string;
+  gatheredSources?: PerspectiveSource[];
 };
 
 async function runWithLlm<T>(
@@ -99,6 +101,7 @@ export async function runStep1(
   options?: {
     perspectiveConfig?: PerspectiveSlot[] | null;
     useWebSearch?: boolean;
+    searchRecencyWindow?: SearchRecencyWindow;
   },
 ): Promise<StepRunResult<MultiPerspectiveOutput>> {
   const roster = resolvePerspectiveConfig(options?.perspectiveConfig);
@@ -111,12 +114,11 @@ export async function runStep1(
 
   const gathered = await gatherResearchContext(brief, {
     useWebSearch: options?.useWebSearch,
+    searchRecencyWindow: options?.searchRecencyWindow,
   });
-  const researchContext = gathered
-    ? `${formatResearchContextBlock(gathered)}\n`
-    : "";
+  const researchContext = gathered ? `${gathered.contextBlock}\n` : "";
 
-  const { output, model, provider } = await runWithLlm(
+  const { output: rawOutput, model, provider } = await runWithLlm(
     1,
     {
       topic: brief.topic,
@@ -126,12 +128,17 @@ export async function runStep1(
     },
     SCHEMAS[1],
   );
+  const output = enrichMultiPerspectiveOutput(
+    rawOutput,
+    gathered?.sources,
+  );
   return {
     output,
     rawMarkdown: renderStepMarkdown(1, output),
     mock: false,
     model,
     provider,
+    gatheredSources: gathered?.sources,
   };
 }
 
@@ -239,6 +246,7 @@ export async function runResearchStep(
       return runStep1(ctx.brief, {
         perspectiveConfig: ctx.perspectiveConfig,
         useWebSearch: ctx.useWebSearch,
+        searchRecencyWindow: ctx.searchRecencyWindow,
       });
     case 2:
       if (!ctx.step1) throw new Error("Step 1 must complete before step 2");

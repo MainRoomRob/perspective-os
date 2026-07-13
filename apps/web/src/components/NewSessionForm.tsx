@@ -33,6 +33,13 @@ import {
 
 const CUSTOM_PRESET_ID = "custom";
 
+const RECENCY_WINDOW_OPTIONS = [
+  { value: "", label: "Any time" },
+  { value: "week", label: "Past week" },
+  { value: "month", label: "Past month" },
+  { value: "year", label: "Past year" },
+] as const;
+
 function lensDisplayName(name: string): string {
   return name.replace(/^The /, "");
 }
@@ -126,6 +133,7 @@ export function NewSessionForm({
   );
   const [suggestError, setSuggestError] = useState<string | null>(null);
   const [suggestPending, startSuggestTransition] = useTransition();
+  const [webSearchChecked, setWebSearchChecked] = useState(false);
 
   const showCustom = presetId === CUSTOM_PRESET_ID;
   const selectedPreset =
@@ -332,6 +340,8 @@ export function NewSessionForm({
               type="checkbox"
               name="useWebSearch"
               value="on"
+              checked={webSearchChecked}
+              onChange={(e) => setWebSearchChecked(e.target.checked)}
               disabled={!webSearchAvailable}
             />
             <span className="web-search-option__label">
@@ -344,6 +354,25 @@ export function NewSessionForm({
             </span>
           </label>
         </div>
+
+        {webSearchAvailable && webSearchChecked ? (
+          <div className="field">
+            <label htmlFor="searchRecencyWindow" className="text-label">
+              Recency window
+            </label>
+            <select id="searchRecencyWindow" name="searchRecencyWindow">
+              {RECENCY_WINDOW_OPTIONS.map((option) => (
+                <option key={option.value || "any"} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+            <p className="text-caption text-muted">
+              When set, runs a second unrestricted search so historical lenses
+              aren&apos;t starved of older sources.
+            </p>
+          </div>
+        ) : null}
 
         <div className="roster-suggest-row action-row">
           <button

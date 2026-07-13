@@ -15,6 +15,7 @@ import {
   parseSessionBriefFromFormData,
   perspectiveSlotSchema,
   resolvePerspectiveConfig,
+  searchRecencyWindowSchema,
   sessionBriefExtrasFromBrief,
   sessionBriefSchema,
   slugFromPerspectiveName,
@@ -65,6 +66,8 @@ export async function createSession(formData: FormData) {
   const { isWebSearchEnabled } = await import("@perspective-os/ai");
   const useWebSearchRequested = formData.get("useWebSearch") === "on";
   const useWebSearch = useWebSearchRequested && isWebSearchEnabled();
+  const recencyRaw = String(formData.get("searchRecencyWindow") ?? "").trim();
+  const searchRecencyWindowParsed = searchRecencyWindowSchema.safeParse(recencyRaw);
 
   const [session] = await withDbRetry(async (db) =>
     db
@@ -72,7 +75,12 @@ export async function createSession(formData: FormData) {
       .values({
         topic: brief.topic,
         role: brief.role,
-        brief: sessionBriefExtrasFromBrief(brief, { useWebSearch }),
+        brief: sessionBriefExtrasFromBrief(brief, {
+          useWebSearch,
+          searchRecencyWindow: useWebSearch && searchRecencyWindowParsed.success
+            ? searchRecencyWindowParsed.data
+            : undefined,
+        }),
         status: "draft",
         currentStep: 0,
         perspectiveConfig,
@@ -161,13 +169,27 @@ export async function runStepAction(sessionId: string, step: ResearchStep) {
         );
 
       const allComplete = step === 4;
+      const sessionUpdate: {
+        status: "complete" | "draft";
+        currentStep: number;
+        updatedAt: Date;
+        sessionExtras?: SessionExtras;
+      } = {
+        status: allComplete ? "complete" : "draft",
+        currentStep: step,
+        updatedAt: new Date(),
+      };
+
+      if (step === 1 && result.gatheredSources?.length) {
+        sessionUpdate.sessionExtras = {
+          ...(detail.sessionExtras ?? {}),
+          gatheredSources: result.gatheredSources,
+        };
+      }
+
       await db
         .update(researchSessions)
-        .set({
-          status: allComplete ? "complete" : "draft",
-          currentStep: step,
-          updatedAt: new Date(),
-        })
+        .set(sessionUpdate)
         .where(eq(researchSessions.id, sessionId));
     });
   } catch (err) {
@@ -310,6 +332,9 @@ export async function exploreMissingPerspectiveAction(sessionId: string) {
     const sessionExtras: SessionExtras = {
       supplementaryPerspective: result.supplementaryPerspective,
       briefingDelta: result.briefingDelta,
+      ...(detail.sessionExtras?.gatheredSources
+        ? { gatheredSources: detail.sessionExtras.gatheredSources }
+        : {}),
     };
 
     await withDbRetry(async (db) => {

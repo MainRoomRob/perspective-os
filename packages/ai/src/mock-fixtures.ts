@@ -13,6 +13,9 @@ import {
   synthesisOutputNewSchema,
 } from "@perspective-os/core";
 
+const MOCK_RETRIEVED_AT = "2026-06-01T12:00:00.000Z";
+const MOCK_PUBLISHED_AT = "2025-11-15T00:00:00.000Z";
+
 const MOCK_SOURCES: Record<ExpertId, PerspectiveSource[]> = {
   practitioner: [
     {
@@ -20,11 +23,14 @@ const MOCK_SOURCES: Record<ExpertId, PerspectiveSource[]> = {
       publisher: "Gartner",
       url: "https://www.gartner.com/en/newsroom",
       sourceType: "report",
+      publishedAt: MOCK_PUBLISHED_AT,
+      retrievedAt: MOCK_RETRIEVED_AT,
     },
     {
       title: "Field Operations Benchmark Study",
       publisher: "McKinsey Operations Practice",
       sourceType: "study",
+      retrievedAt: MOCK_RETRIEVED_AT,
     },
   ],
   academic: [
@@ -32,12 +38,15 @@ const MOCK_SOURCES: Record<ExpertId, PerspectiveSource[]> = {
       title: "Systematic review of peer-reviewed literature",
       publisher: "Journal of Applied Research",
       sourceType: "study",
+      publishedAt: "2025-09-20T00:00:00.000Z",
     },
     {
       title: "Meta-analysis of randomised controlled trials",
       publisher: "Cochrane Library",
       url: "https://www.cochranelibrary.com",
       sourceType: "study",
+      publishedAt: MOCK_PUBLISHED_AT,
+      retrievedAt: MOCK_RETRIEVED_AT,
     },
   ],
   skeptic: [
@@ -45,11 +54,13 @@ const MOCK_SOURCES: Record<ExpertId, PerspectiveSource[]> = {
       title: "Replication failures in headline claims",
       publisher: "Center for Open Science",
       sourceType: "study",
+      retrievedAt: MOCK_RETRIEVED_AT,
     },
     {
       title: "Critical review of dominant industry narrative",
       publisher: "Boston Review",
       sourceType: "news",
+      publishedAt: "2026-01-10T00:00:00.000Z",
     },
   ],
   economist: [
@@ -58,11 +69,14 @@ const MOCK_SOURCES: Record<ExpertId, PerspectiveSource[]> = {
       publisher: "Federal Reserve Economic Data",
       url: "https://fred.stlouisfed.org",
       sourceType: "data",
+      publishedAt: MOCK_PUBLISHED_AT,
+      retrievedAt: MOCK_RETRIEVED_AT,
     },
     {
       title: "Annual industry economics report",
       publisher: "Deloitte Insights",
       sourceType: "report",
+      retrievedAt: MOCK_RETRIEVED_AT,
     },
   ],
   historian: [
@@ -70,11 +84,13 @@ const MOCK_SOURCES: Record<ExpertId, PerspectiveSource[]> = {
       title: "Historical parallels in technology adoption cycles",
       publisher: "Cambridge University Press",
       sourceType: "book",
+      publishedAt: "2024-06-01T00:00:00.000Z",
     },
     {
       title: "Archive-based case study series",
       publisher: "Smithsonian Institution",
       sourceType: "organisation",
+      retrievedAt: MOCK_RETRIEVED_AT,
     },
   ],
 };

@@ -14,6 +14,7 @@ import {
   perspectiveLabelForId,
   resolveFindingAuditLabel,
 } from "@perspective-os/core";
+import { formatSourceMeta, formatSourceRecency } from "@/lib/format-source-recency";
 import { TunerScoreMeter } from "../meters/TunerScoreMeter";
 
 export type OutputTier = "critical" | "action" | "primary" | "secondary" | "muted";
@@ -282,26 +283,38 @@ export function ConsensusList({ items }: { items: string[] }) {
 function SourceCitation({
   source,
   compact = false,
+  showExternalIcon = true,
 }: {
   source: PerspectiveSource;
   compact?: boolean;
+  showExternalIcon?: boolean;
 }) {
-  const label = compact ? source.publisher : source.title;
+  const label = source.title;
 
   if (source.url) {
     return (
       <a
         href={source.url}
-        className="source-link text-link"
+        className={compact ? "source-link source-link--compact text-link" : "source-link text-link"}
         target="_blank"
         rel="noopener noreferrer"
+        aria-label={`${label} (opens in new tab)`}
       >
         {label}
+        {showExternalIcon ? (
+          <span className="source-link__external" aria-hidden="true">
+            ↗
+          </span>
+        ) : null}
       </a>
     );
   }
 
-  return <span className="source-link source-link--text">{label}</span>;
+  return (
+    <span className={compact ? "source-link source-link--compact source-link--text" : "source-link source-link--text"}>
+      {label}
+    </span>
+  );
 }
 
 export function SourceLinkList({ sources }: { sources: PerspectiveSource[] }) {
@@ -309,10 +322,9 @@ export function SourceLinkList({ sources }: { sources: PerspectiveSource[] }) {
     <ol className="source-list">
       {sources.map((source, index) => (
         <li key={`${source.title}-${index}`} className="source-list__item">
-          <SourceCitation source={source} />
+          <SourceCitation source={source} showExternalIcon={Boolean(source.url)} />
           <span className="text-caption text-muted source-list__meta">
-            {source.publisher}
-            {source.url ? null : ` · ${source.sourceType}`}
+            {formatSourceMeta(source)}
           </span>
         </li>
       ))}
@@ -331,6 +343,7 @@ export function EvidenceList({
     <ul className="evidence-list">
       {evidencePoints.map((point, index) => {
         const source = sources[point.sourceIndex];
+        const recency = source ? formatSourceRecency(source) : null;
         return (
           <li key={`${point.claim}-${index}`} className="evidence-list__item text-body">
             <span className="evidence-list__claim">{point.claim}</span>
@@ -338,7 +351,8 @@ export function EvidenceList({
               <span className="text-caption text-muted evidence-list__source">
                 {" "}
                 —{" "}
-                <SourceCitation source={source} compact />
+                <SourceCitation source={source} compact showExternalIcon={Boolean(source.url)} />
+                {recency ? ` · ${recency}` : null}
               </span>
             ) : null}
           </li>
