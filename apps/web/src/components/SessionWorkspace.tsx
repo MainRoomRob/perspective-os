@@ -46,12 +46,14 @@ export function SessionWorkspace({
   activeStep,
   sessionExtras,
   perspectiveConfig,
+  useWebSearch = false,
 }: {
   sessionId: string;
   steps: StepOutputRow[];
   activeStep: ResearchStep;
   sessionExtras?: import("@perspective-os/core").SessionExtras | null;
   perspectiveConfig?: PerspectiveSlot[] | null;
+  useWebSearch?: boolean;
 }) {
   const { refresh, isRefreshing } = useRefreshRouter();
   const refreshQueuedRef = useRef(false);
@@ -75,6 +77,7 @@ export function SessionWorkspace({
 
   const progressContext: AiOperationContext = {
     lensNames: resolvePerspectiveConfig(perspectiveConfig).map((slot) => slot.name),
+    useWebSearch,
   };
 
   const handleTaskComplete = useCallback(() => {

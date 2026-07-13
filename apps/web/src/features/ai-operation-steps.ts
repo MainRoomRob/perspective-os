@@ -9,6 +9,7 @@ export type AiOperationId =
 export type AiOperationContext = {
   /** Display names for the session roster (without "The "). */
   lensNames?: string[];
+  useWebSearch?: boolean;
 };
 
 export type AiOperationStep = {
@@ -152,6 +153,24 @@ export const AI_OPERATIONS: Record<AiOperationId, AiOperationConfig> = {
     ],
   },
 };
+
+export function resolveAiOperation(
+  operation: AiOperationId,
+  context: AiOperationContext = {},
+): AiOperationConfig {
+  const base = AI_OPERATIONS[operation];
+  if (operation !== "research-step-1" || !context.useWebSearch) {
+    return base;
+  }
+
+  return {
+    ...base,
+    steps: [
+      { message: "Searching the web for sources…" },
+      ...base.steps,
+    ],
+  };
+}
 
 export function resolveStepMessage(
   step: AiOperationStep,

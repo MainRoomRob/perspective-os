@@ -33,6 +33,7 @@ Without API keys, the pipeline runs in **mock mode** with deterministic fixture 
 | `GEMINI_API_KEY` | Fallback provider |
 | `GEMINI_MODEL` | Default `gemini-2.5-flash-lite` |
 | `LLM_PROVIDER` | Optional: `openai` or `gemini` when both keys are set |
+| `TAVILY_API_KEY` | Optional: enables web search on new sessions (Tavily Search API) |
 
 ## Monorepo
 
@@ -78,6 +79,7 @@ DATABASE_URL="postgresql://..." npm run db:init
 | `DATABASE_URL` | Neon pooled Postgres connection string |
 | `OPENAI_API_KEY` | Live AI (required for production demo) |
 | `OPENAI_MODEL` | Optional, default `gpt-4o-mini` |
+| `TAVILY_API_KEY` | Optional: web search for Step 1 when enabled on a session |
 
 6. Deploy (build runs `npm run build` only). If a deploy still fails, use **Redeploy → Clear build cache**.
 

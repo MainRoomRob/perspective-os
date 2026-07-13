@@ -49,7 +49,14 @@ export default async function SessionPage({
           <div className="session-toolbar__context">
             <h1 className="text-h2">{detail.topic}</h1>
             <p className="text-caption session-toolbar__role">{detail.role}</p>
-            <PerspectiveRosterTags slots={roster} />
+            <div className="session-toolbar__meta action-row">
+              <PerspectiveRosterTags slots={roster} />
+              {detail.brief?.useWebSearch ? (
+                <span className="status-badge" data-status="draft">
+                  Web search
+                </span>
+              ) : null}
+            </div>
           </div>
           <SessionActions sessionId={detail.id} />
         </div>
@@ -61,6 +68,7 @@ export default async function SessionPage({
         activeStep={activeStep}
         sessionExtras={detail.sessionExtras}
         perspectiveConfig={detail.perspectiveConfig}
+        useWebSearch={detail.brief?.useWebSearch ?? false}
       />
     </AppLayout>
   );

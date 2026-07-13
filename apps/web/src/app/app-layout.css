@@ -215,6 +215,41 @@ body.app {
   align-self: flex-start;
 }
 
+.web-search-option {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-3);
+  cursor: pointer;
+  width: 100%;
+  max-width: none;
+}
+
+.web-search-option input[type="checkbox"] {
+  width: auto;
+  flex: 0 0 auto;
+  margin-top: 0.15rem;
+  padding: 0;
+  border: none;
+  border-bottom: none;
+  accent-color: var(--accent-primary);
+}
+
+.web-search-option__label {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+  flex: 1;
+  min-width: 0;
+}
+
+.web-search-option__label .text-label {
+  margin-bottom: 0;
+}
+
+.web-search-option input[type="checkbox"]:disabled {
+  cursor: not-allowed;
+}
+
 .app-content .field,
 .form-stack .field {
   max-width: none;

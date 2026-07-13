@@ -1,7 +1,7 @@
 "use client";
 
 import {
-  AI_OPERATIONS,
+  resolveAiOperation,
   resolveStepMessage,
   type AiOperationContext,
   type AiOperationId,
@@ -69,7 +69,7 @@ export function AiOperationProgress({
   /** Called when the server task ends and the overlay finish sequence begins. */
   onTaskComplete?: () => void;
 }) {
-  const config = AI_OPERATIONS[operation];
+  const config = resolveAiOperation(operation, context);
   const [stepIndex, setStepIndex] = useState(0);
   const [elapsedSec, setElapsedSec] = useState(0);
   const [mounted, setMounted] = useState(false);

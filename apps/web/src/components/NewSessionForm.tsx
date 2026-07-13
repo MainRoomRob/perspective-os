@@ -104,7 +104,11 @@ function RosterPractitionerPanel({
   );
 }
 
-export function NewSessionForm() {
+export function NewSessionForm({
+  webSearchAvailable = false,
+}: {
+  webSearchAvailable?: boolean;
+}) {
   const [topic, setTopic] = useState("");
   const [role, setRole] = useState("");
   const [decision, setDecision] = useState("");
@@ -321,6 +325,25 @@ export function NewSessionForm() {
           The decision field helps each lens focus on what you need to judge —
           not generic commentary on the topic.
         </p>
+
+        <div className="field">
+          <label className="web-search-option">
+            <input
+              type="checkbox"
+              name="useWebSearch"
+              value="on"
+              disabled={!webSearchAvailable}
+            />
+            <span className="web-search-option__label">
+              <span className="text-label">Use web search</span>
+              <span className="text-caption text-muted">
+                {webSearchAvailable
+                  ? "Retrieve live sources before Step 1 to ground expert perspectives."
+                  : "Set TAVILY_API_KEY to enable web search."}
+              </span>
+            </span>
+          </label>
+        </div>
 
         <div className="roster-suggest-row action-row">
           <button

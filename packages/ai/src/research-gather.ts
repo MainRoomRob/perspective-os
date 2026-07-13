@@ -1,18 +1,37 @@
-import type { PerspectiveSource } from "@perspective-os/core";
+import type { PerspectiveSource, SessionBrief } from "@perspective-os/core";
+import { isWebSearchEnabled } from "./web-search-status";
+import { searchWeb } from "./web-search";
 
 export type ResearchGatherResult = {
   sources: PerspectiveSource[];
   contextBlock: string;
 };
 
-/**
- * Optional pre-research pass (web search) before Step 1.
- * Returns null today — future Tavily/Serper integration populates sources + context.
- */
+function buildSearchQuery(brief: SessionBrief): string {
+  const parts = [brief.topic, brief.decision];
+  if (brief.context) parts.push(brief.context);
+  return parts.join(" — ");
+}
+
 export async function gatherResearchContext(
-  _topic: string,
+  brief: SessionBrief,
+  options: { useWebSearch?: boolean },
 ): Promise<ResearchGatherResult | null> {
-  return null;
+  if (!options.useWebSearch || !isWebSearchEnabled()) {
+    return null;
+  }
+
+  const sources = await searchWeb(buildSearchQuery(brief));
+  if (sources.length === 0) {
+    throw new Error("Web search returned no sources for this topic");
+  }
+
+  const result: ResearchGatherResult = {
+    sources,
+    contextBlock: "",
+  };
+  result.contextBlock = formatResearchContextBlock(result);
+  return result;
 }
 
 export function formatResearchContextBlock(result: ResearchGatherResult): string {
@@ -24,7 +43,7 @@ export function formatResearchContextBlock(result: ResearchGatherResult): string
 
   return `## Pre-gathered research context
 
-Use these retrieved sources where relevant. Prefer citing from this list when applicable.
+The following sources were retrieved via web search before this step. Prefer citing from this list when applicable. Set \`groundingNote\` to acknowledge these are web-retrieved sources.
 
 ${lines.join("\n")}`;
 }

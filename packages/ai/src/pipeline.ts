@@ -48,6 +48,7 @@ const SCHEMAS = {
 export type PipelineContext = {
   brief: SessionBrief;
   perspectiveConfig?: PerspectiveSlot[] | null;
+  useWebSearch?: boolean;
   step1?: MultiPerspectiveOutput;
   step2?: ContradictionMapOutput;
   step3?: SynthesisOutput;
@@ -95,9 +96,12 @@ async function runWithLlm<T>(
 
 export async function runStep1(
   brief: SessionBrief,
-  perspectiveConfig?: PerspectiveSlot[] | null,
+  options?: {
+    perspectiveConfig?: PerspectiveSlot[] | null;
+    useWebSearch?: boolean;
+  },
 ): Promise<StepRunResult<MultiPerspectiveOutput>> {
-  const roster = resolvePerspectiveConfig(perspectiveConfig);
+  const roster = resolvePerspectiveConfig(options?.perspectiveConfig);
   const briefBlock = formatSessionBriefBlock(brief);
 
   if (!isAiEnabled()) {
@@ -105,7 +109,9 @@ export async function runStep1(
     return { output, rawMarkdown: renderStepMarkdown(1, output), mock: true };
   }
 
-  const gathered = await gatherResearchContext(brief.topic);
+  const gathered = await gatherResearchContext(brief, {
+    useWebSearch: options?.useWebSearch,
+  });
   const researchContext = gathered
     ? `${formatResearchContextBlock(gathered)}\n`
     : "";
@@ -230,7 +236,10 @@ export async function runResearchStep(
 > {
   switch (step) {
     case 1:
-      return runStep1(ctx.brief, ctx.perspectiveConfig);
+      return runStep1(ctx.brief, {
+        perspectiveConfig: ctx.perspectiveConfig,
+        useWebSearch: ctx.useWebSearch,
+      });
     case 2:
       if (!ctx.step1) throw new Error("Step 1 must complete before step 2");
       return runStep2(ctx.brief, ctx.step1);
@@ -259,7 +268,7 @@ export async function runFullPipeline(
   step4: PeerReviewOutput;
   mock: boolean;
 }> {
-  const r1 = await runStep1(brief, perspectiveConfig);
+  const r1 = await runStep1(brief, { perspectiveConfig });
   const r2 = await runStep2(brief, r1.output);
   const r3 = await runStep3(brief, r1.output, r2.output);
   const r4 = await runStep4(brief, r1.output, r2.output, r3.output);

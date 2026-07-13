@@ -13,6 +13,7 @@ export type SessionBrief = z.infer<typeof sessionBriefSchema>;
 export const sessionBriefExtrasSchema = z.object({
   decision: z.string().min(1).max(500),
   context: z.string().max(1000).optional(),
+  useWebSearch: z.boolean().optional(),
 });
 
 export type SessionBriefExtras = z.infer<typeof sessionBriefExtrasSchema>;
@@ -74,10 +75,12 @@ export function parseSessionBriefFromFormData(formData: FormData): SessionBrief 
 
 export function sessionBriefExtrasFromBrief(
   brief: SessionBrief,
+  options?: { useWebSearch?: boolean },
 ): SessionBriefExtras {
   return sessionBriefExtrasSchema.parse({
     decision: brief.decision,
     context: brief.context,
+    ...(options?.useWebSearch ? { useWebSearch: true } : {}),
   });
 }
 

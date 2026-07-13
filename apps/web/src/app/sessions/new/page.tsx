@@ -1,8 +1,11 @@
-import { AppLayout } from "@/shell/AppLayout";
 import Link from "next/link";
+import { getWebSearchStatusAction } from "@perspective-os/web-server/actions";
 import { NewSessionForm } from "@/components/NewSessionForm";
+import { AppLayout } from "@/shell/AppLayout";
 
-export default function NewSessionPage() {
+export default async function NewSessionPage() {
+  const webSearch = await getWebSearchStatusAction();
+
   return (
     <AppLayout
       sidebar={
@@ -21,7 +24,7 @@ export default function NewSessionPage() {
           </p>
         </header>
 
-        <NewSessionForm />
+        <NewSessionForm webSearchAvailable={webSearch.enabled} />
       </div>
     </AppLayout>
   );

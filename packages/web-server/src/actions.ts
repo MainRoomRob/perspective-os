@@ -62,6 +62,9 @@ function parsePerspectiveConfig(formData: FormData): PerspectiveSlot[] {
 export async function createSession(formData: FormData) {
   const brief = parseSessionBriefFromFormData(formData);
   const perspectiveConfig = parsePerspectiveConfig(formData);
+  const { isWebSearchEnabled } = await import("@perspective-os/ai");
+  const useWebSearchRequested = formData.get("useWebSearch") === "on";
+  const useWebSearch = useWebSearchRequested && isWebSearchEnabled();
 
   const [session] = await withDbRetry(async (db) =>
     db
@@ -69,7 +72,7 @@ export async function createSession(formData: FormData) {
       .values({
         topic: brief.topic,
         role: brief.role,
-        brief: sessionBriefExtrasFromBrief(brief),
+        brief: sessionBriefExtrasFromBrief(brief, { useWebSearch }),
         status: "draft",
         currentStep: 0,
         perspectiveConfig,
@@ -276,6 +279,13 @@ export async function getLlmStatusAction() {
   return {
     enabled: isAiEnabled(),
     provider: resolveLlmProvider(),
+  };
+}
+
+export async function getWebSearchStatusAction() {
+  const { isWebSearchEnabled } = await import("@perspective-os/ai");
+  return {
+    enabled: isWebSearchEnabled(),
   };
 }
 
